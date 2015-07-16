@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+     <style>
+     
+     .input-lg{
+     	width:32%;
+     	height:39px;
+     }
+     </style>
+     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="http://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+	<script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+ </head>
+  <body ng-app="" ng-controller="linkedinController" >
+    <nav class="navbar navbar-default" style="padding-bottom: 10px;box-shadow: 3px 3px 5px #888888; background-color: #F5F5F5;">
+<div class="col-sm-2"><img src="/stylesheets/imageedit_2_8077615391.gif" style="margin-left: 150px;margin-top: 20px;"></div> 		
+			 	<div class="col-sm-2">
+			 		<!-- <label for="Email">Email Address</label> -->
+			        <input ng-model="inputUsername" class="form-control" type="email" placeholder="Email Address" name="inputUsername" style="margin-left: 500px;margin-right: 1000px;margin-top: 10px;" required>
+			    </div> 
+			    <div class="col-sm-2">
+			        <input ng-model="inputPassword" class="form-control" type="password" placeholder="Password" name="inputPassword" style="margin-left: 480px;margin-top: 10px;" required>
+			    </div> 
+			     <button ng-click="signIn()" style="margin-left: 480px;margin-top: 14px;">Sign in</button>
+			
+	</nav>
+	<center><label><h1>Successfully Registered. Please Login..!!</h1></label></center>
+		<div>
+		<form ng-submit="signUp()">
+	
+					<div >
+			        <input ng-model="inputFirstName" class="form-control input-lg" type="text" placeholder="First Name" name="inputFirstName"  required />
+			   		</div>
+			    
+	
+					<div >
+			        <input ng-model="inputLastName" class="form-control input-lg" type="text" placeholder="Last Name" name="inputLastName"  required />
+			  		</div>
+	 
+	
+					<div >
+			        <input ng-model="inputEmailAddress" class="form-control input-lg" type="email" placeholder="Email Address" name="inputEmailAddress"  required />
+			    	</div>
+	 
+		    
+	
+					<div >
+			        <input ng-model="inputPassword1" class="form-control input-lg" type="password" placeholder="Password" name="inputPassword1"  required  />
+	
+			    </div> 
+			    <button type ="submit"  class="btn btn-warning" >Sign up</button>
+			  </form>  
+		</div>
+<script>
+	function linkedinController($scope,$http,$location) {
+	    
+		$scope.signIn = function() {
+	    	$http({
+	            method: 'POST',
+	            url: '/signin',
+	            data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+	            
+	         }).success(function(response){
+	           
+	            alert(JSON.stringify(response));
+	            
+	            if(response.login == "Success")
+	           		window.location = '/successLogin';
+	            else
+	            	window.location = '/failLogin';
+	        }).error(function(error){
+	            alert("error");
+	        });
+	    };
+
+	    $scope.signUp = function() {
+	    	$http({
+	            method: 'POST',
+	            url: '/signup',
+	            data: { "email": $scope.inputEmailAddress, "password": $scope.inputPassword1 , "firstname": $scope.inputFirstName, "lastname": $scope.inputLastName}
+	            
+	         }).success(function(response){
+	           
+	            alert(JSON.stringify(response));
+	            
+	            if(response.register == "Success")
+	           		window.location = '/successRegister';
+	            else
+	            	window.location = '/failRegister';
+	        }).error(function(error){
+	            alert("error");
+	        });
+	    };
+	}
+	</script>
+
+  </body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+     <script src="/js/sweet-alert.js"></script>
+     <link rel="stylesheet" href="/stylesheets/sweet-alert.css">
+     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+     
+	<script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+	
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+	
+	<script>
+	
+function connectController($scope,$http,$location) {
+	    
+		$scope.signOut = function() {
+	    	$http({
+	            method: 'GET',
+	            url: '/signout',
+	        //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+	            
+	         }).success(function(response){
+	           
+	            alert(JSON.stringify(response));
+	            
+	            if(response.status == "success")
+	           		window.location = '/';
+	            else
+	            	sweetAlert("Oops!",response.msg,"error");
+	        }).error(function(error){
+	        	sweetAlert("Oops! some thing went wrong",error,"error");
+	        });
+	    };
+	    
+	   $scope.acceptConn = function(usrid){
+		   var temp = usrid;
+	    	$http({
+	            method: 'POST',
+	            url: '/acceptConn',
+	          data: { "username": temp,}
+	            
+	         }).success(function(response){
+	           
+	            alert(JSON.stringify(response));
+	            
+	            if(response.status == "success"){
+	            	sweetAlert("Succesfully connected","","success");
+	            location.reload();
+	            }
+	            else
+	            	sweetAlert("Oops! some thing went wrong",response.msg,"error");
+	        }).error(function(error){
+	        	sweetAlert("Oops! ",error,"error");
+	        });
+	    };
+	    
+		$scope.getSearch = function() {
+	    	$http({
+	            method: 'GET',
+	            url: '/verifyUser',
+	        //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+	            
+	         }).success(function(response){
+	           
+	            alert(JSON.stringify(response));
+	            
+	            if(response.status == "success"){
+	            	//alert('hi');
+	            	window.location = '/getSearch';
+	            }           		
+	            else
+	            	sweetAlert("Oops! some thing went wrong",response.msg,"error");
+	        }).error(function(error){
+	        	sweetAlert("Oops! ",error,"error");
+	        });
+	    };    
+		   $scope.sendConnReq = function(usrid){
+			   var temp = usrid;
+		    	$http({
+		            method: 'POST',
+		            url: '/sendConnReq',
+		          data: { "touserid": temp,}
+		            
+		         }).success(function(response){
+		           
+		            alert(JSON.stringify(response));
+		            
+		            if(response.status == "success"){
+		            	sweetAlert("Request Sent","","success");
+		            location.reload();
+		            
+		            }
+		            else
+		            	sweetAlert("Oops! some thing went wrong",response.msg,"error");
+		        }).error(function(error){
+		        	sweetAlert("Oops! ",error,"error");
+		        });
+		    };	  
+			   $scope.rejectConn = function(usrid){
+				   var temp = usrid;
+			    	$http({
+			            method: 'POST',
+			            url: '/rejectConn',
+			          data: { "fromuserid": temp,}
+			            
+			         }).success(function(response){
+			           
+			            alert(JSON.stringify(response));
+			            
+			            if(response.status == "success"){
+			            	sweetAlert("Request Sent","","success");
+			            location.reload();
+			            }
+			            else
+			            	sweetAlert("Oops! some thing went wrong",response.msg,"error");
+			        }).error(function(error){
+			        	sweetAlert("Oops! ",error,"error");
+			        });
+			    };
+	    $scope.showProfile = function(){
+	    	$http({
+	            method: 'GET',
+	            url: '/verifyUser',
+	        //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+	            
+	         }).success(function(response){
+	           
+	            alert(JSON.stringify(response));
+	            
+	            if(response.status == "success")
+	           		window.location = '/showProfile';
+	            else
+	            	sweetAlert("Oops! some thing went wrong",response.msg,"error");
+	        }).error(function(error){
+	        	sweetAlert("Oops! ",error,"error");
+	        });
+	    };
+		$scope.showHomepage = function (){
+			$http({
+		        method: 'GET',
+		        url: '/verifyUser',
+		    //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+		        
+		     }).success(function(response){
+		       
+		        alert(JSON.stringify(response));
+		        
+		        if(response.status == "success")
+		       		window.location = '/successLogin';
+		        else
+		        	sweetAlert("Oops! some thing went wrong",response.msg,"error");
+		    }).error(function(error){
+		    	sweetAlert("Oops! ",error,"error");
+		    });
+		};	
+	
+	    
+	    $scope.getConnect = function(){
+	    	$http({
+	            method: 'GET',
+	            url: '/verifyUser',
+	        //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+	            
+	         }).success(function(response){
+	           
+	            alert(JSON.stringify(response));
+	            
+	            if(response.status == "success")
+	           		window.location = '/getConnect';
+	            else
+	            	sweetAlert("Oops! ",response.msg,"error");
+	        }).error(function(error){
+	        	sweetAlert("Oops! some thing went wrong",error,"error");
+	        });
+	    };
+	    
+	}
+
+	
+	</script>
+	<style>
+    body{
+    padding:10;
+    background-image:url(/Photos/BGhome.jpg);
+ max-height : 100%;
+ max-width : 100%;
+ background-size:100% 100%;
+ background-repeat:no-repeat;
+ 
+   color: white;
+   overflow: auto;
+    }
+     </style>
+ </head>
+  <body ng-app="" ng-controller="connectController" style="margin-top: -50px;margin-left: -50px;margin-right: -50px;" onload="sessionRestore()">
+  
+  <nav class="navbar navbar-inverse">
+  <div class="container-fluid ">
+    <div class="navbar-header">
+     <img src="/photos/home-logo.png" width="60" height="55" style="margin-left: 100px;">
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+        <li ><a  href  ng-click="showHomepage()">Home</a></li>
+        <li ><a href ng-click="showProfile()">Profile</a></li>
+        <li class="active"><a href ng-click="getConnect()">Connect</a></li>
+        <li><a href ng-click="getSearch()">Search Users</a></li>
+        <li><a href ng-click="signOut()">Sign Out</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+	<div class="row">
+                
+        <div class="col-sm-4">
+        
+         <div class="well well-sm">
+         <div class="row bshadow">
+         
+          <center><legend>Connected To</legend></center>
+          <h5>No Of Connections :  <%= total_conections %></h5>
+          <% for(var i=0;i< accepted.length ; i++ ) {
+         		var temp = accepted[i] ; 
+         		for(var j=0;j< temp.length ;j++){ %>
+         		<h4 class="h4pad"><a href="/disProfile?userid=<%=temp[j].user_id%>" target="_blank"> <%= temp[j].fullname %> </a><span class="glyphicon glyphicon-ok" aria-hidden="true">Connected</span></h4> 
+         			
+         	<%	}
+          } %>
+         </div>
+         
+        </div>
+        
+        </div>
+        
+        <div class="col-sm-4">
+      	<div class="well well-sm">
+         <div class="row bshadow">
+       <center><legend>Requests Pending</legend></center>
+         <% for(var i=0 ; i< pending_from_you.length ; i++) { %>
+         	<h4 class="h4pad" ><a href="/disProfile?userid=<%=pending_from_you[i].from_user_id %>" target="_blank"> <%= pending_from_you[i].fullname %> </a>
+         	<button ng-click="acceptConn(<%=pending_from_you[i].from_user_id %>)" type="button" class="btn btn-default btn-lg inline skillbutton">
+							  <span class="glyphicon glyphicon-ok" aria-hidden="true">Accept</span>
+							</button>
+							<button ng-click="rejectConn(<%=pending_from_you[i].from_user_id %>)" type="button" class="btn btn-default btn-lg inline skillbutton">
+							  <span class="glyphicon glyphicon-remove" aria-hidden="true">Reject</span>
+							</button>
+         	</h4> 
+         <% } %>
+         
+         <% for(var i=0 ; i< pending_from_other.length ; i++) { %>
+         	<h4 class="h4pad" ><a href="/disProfile?userid=<%=pending_from_other[i].to_user_id %>" target="_blank" > <%= pending_from_other[i].fullname %> </a>
+         	<span class="glyphicon glyphicon-user" aria-hidden="true">PendingAcceptance</span>
+         	</h4> 
+         <% } %>
+         </div>
+         
+        </div>
+        
+        </div>
+        
+        <div class="col-sm-4">
+           <div class="well well-sm">
+         <div class="row bshadow">
+         
+          <center><legend>To Be Connected</legend></center>
+         <% for(var i=0 ; i< not_yet_connected.length ; i++) { %>
+         	<h4 class="h4pad" ><a href="/disProfile?userid=<%=not_yet_connected[i].user_id%>" target="_blank" > <%= not_yet_connected[i].fullname %> </a>
+         	<button ng-click="sendConnReq(<%=not_yet_connected[i].user_id %>)" type="button" class="btn btn-default btn-lg inline skillbutton">
+							  <span class="glyphicon glyphicon-ok" aria-hidden="true">Connect</span>
+							</button>			
+         	</h4> 
+         <% } %>
+         </div>
+         
+        </div>
+        </div>
+        
+    </div >
+        
+        
+</div>
+
+ 
+  </body>
+</html>

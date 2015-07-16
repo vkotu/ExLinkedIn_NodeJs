@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+     
+	<script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+	 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	
+	    	<script src="/js/sweet-alert.js"></script>
+<script>
+function homeController($scope,$http,$location) {
+    
+	$scope.signOut = function() {
+    	$http({
+            method: 'GET',
+            url: '/signout',
+        //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+            
+         }).success(function(response){
+           
+            alert(JSON.stringify(response));
+            
+            if(response.status == "success")
+           		window.location = '/';
+            else
+            	sweetAlert("Oops!",response.msg,"error");
+        }).error(function(error){
+        	sweetAlert("Oops! some thing went wrong",error,"error");
+        });
+    };
+    
+	$scope.getSearch = function() {
+    	$http({
+            method: 'GET',
+            url: '/verifyUser',
+        //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+            
+         }).success(function(response){
+           
+            alert(JSON.stringify(response));
+            
+            if(response.status == "success"){
+            	//alert('hi');
+            	window.location = '/getSearch';
+            }           		
+            else
+            	sweetAlert("Oops! some thing went wrong",response.msg,"error");
+        }).error(function(error){
+        	sweetAlert("Oops! ",error,"error");
+        });
+    };    
+    
+    
+    $scope.showProfile = function(){
+    	$http({
+            method: 'GET',
+            url: '/verifyUser',
+        //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+            
+         }).success(function(response){
+           
+            alert(JSON.stringify(response));
+            
+            if(response.status == "success"){
+            	//alert('hi');
+            	window.location = '/showProfile';
+            }           		
+            else
+            	sweetAlert("Oops! some thing went wrong",response.msg,"error");
+        }).error(function(error){
+        	sweetAlert("Oops! ",error,"error");
+        });
+    };
+	$scope.showHomepage = function (){
+		$http({
+	        method: 'GET',
+	        url: '/verifyUser',
+	    //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+	        
+	     }).success(function(response){
+	       
+	        alert(JSON.stringify(response));
+	        
+	        if(response.status == "success")
+	       		window.location = '/successLogin';
+	        else
+	        	sweetAlert("Oops! some thing went wrong",response.msg,"error");
+	    }).error(function(error){
+	    	sweetAlert("Oops! ",error,"error");
+	    });
+	};	
+
+    
+    $scope.getConnect = function(){
+    	$http({
+            method: 'GET',
+            url: '/verifyUser',
+        //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+            
+         }).success(function(response){
+           
+            alert(JSON.stringify(response));
+            
+            if(response.status == "success")
+           		window.location = '/getConnect';
+            else
+            	sweetAlert("Oops! ",response.msg,"error");
+        }).error(function(error){
+        	sweetAlert("Oops! some thing went wrong",error,"error");
+        });
+    };
+    
+}
+</script>
+  		<link rel="stylesheet" href="/stylesheets/sweet-alert.css">
+ </head>
+  <body ng-app="" ng-controller="homeController" style="margin-top: -50px;margin-left: -50px;margin-right: -50px;" >
+  
+  <nav class="navbar navbar-inverse">
+  <div class="container-fluid bgblue">
+    <div class="navbar-header">
+      <img src="/photos/lnlogo.gif" style="margin-left: 150px;margin-top: 7px;">
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+        <li class="active" ><a  href  ng-click="showHomepage()">Home</a></li>
+        <li><a href ng-click="showProfile()">Edit Profile</a></li>
+        <li><a href ng-click="getConnect()">Connect</a></li>
+        <li><a href ng-click="getSearch()">Search Users</a></li>
+        <li><a href ng-click="signOut()">Sign Out</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div><h2 class="inline">Welcome <%= userdetails.first_name %></h2><h4 class="floatr inline">Last Logged in : <%= userdetails.reqdate %></h4></div>
+
+<div class="container" style="padding:0 ;margin:0">
+	<div class = "row"></div>
+	<div class="col-md-3">
+        <div class="text-center">
+          <img src="/photos/venkat_large.jpg" class="avatar img-circle" alt="avatar">
+      
+        </div>
+	</div>
+	<div class="col-md-6">
+		          <div class="container" >      
+		                      
+                <div class="row " >
+                  
+                    <div class="col-xs-6 col-sm-8 col-md8">
+                        <div class="well well-sm ">
+                          <div class="row bshadow">  
+                             <center><legend>Personal Info</legend></center>                         
+                             <div class="form-group">
+                            <label class="col-sm-2 control-label" for="companyName_1">Name:</label>
+                                <div class="col-sm-9">
+                                  <input type="text"  disabled  class="form-control" value="<%= userdetails.first_name %> <%= userdetails.last_name %>">
+                                </div>
+                              </div>
+
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="inputTitle_1">Location:</label>
+                                <div class="col-sm-9">
+                                  <input type="text"  disabled class="form-control" value="<%= userdetails.location%>" >
+                                </div>
+                              </div>            
+                                                                                              
+                              </div>                              
+                          </div>
+                        </div>                        
+                    </div>
+                    <div>                    		           	
+               </div>
+          
+                </div>
+	             <div class="container">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-8 col-md8">
+                        <div class="well well-sm">
+                          <div class="row bshadow">
+                             <center><legend>Summary</legend></center>
+                                 <textarea  name="userSummary" class="field span5" rows="5" 
+                                 
+                                 style="width: 80%; height: 80%; margin-left:70px" disabled ><%= userdetails.summary %></textarea>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+	 <div class="container">
+
+                <div class="row">
+                
+                    <div class="col-xs-6 col-sm-8 col-md8">
+                        <div class="well well-sm">
+                          <div class="row bshadow">       
+                          <center><legend>Skills</legend></center>                      
+                             <div class="form-group">                          
+                              <div class="col-sm-6">
+                              	<% for(var i=0 ;i <skill.length ; i++){%>
+                                  <input type="text"  id="skill" name="skill" value= "<%=  skill[i].skillset %>" disabled placeholder="" class="form-control"/><br/>
+                                <% } %>	                                                              
+						        </div>					            
+					             </div>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+      
+	 </div>
+	          <div class="container" >
+	          <h4><legend>Experience Details</legend></h4>
+                 <% for(var i=0 ;i <exp.length ; i++){%>       
+                <div class="row" >
+                    <div class="col-xs-6 col-sm-8 col-md8">
+                        <div class="well well-sm">
+                          <div class="row bshadow">
+                             <center><legend>Experience <%= i+1 %> </legend></center>
+                             
+                             <div class="form-group">
+                          
+                                <label class="col-sm-2 control-label" for="companyName_1">CompanyName:</label>
+                                <div class="col-sm-9">
+                                  <input type="text"  disabled  class="form-control" value="<%= exp[i].company_name %>">
+                                </div>
+                              </div>
+
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="inputTitle_1">Title:</label>
+                                <div class="col-sm-9">
+                                  <input type="text"  disabled class="form-control" value="<%= exp[i].title %>" >
+                                </div>
+                              </div>   
+                               <div class="form-group">
+                                <label class="col-sm-2 control-label" for="inputTitle_1">Location:</label>
+                                <div class="col-sm-9">
+                                  <input type="text"  disabled class="form-control" value="<%= exp[i].location %>" >
+                                </div>
+                              </div>         
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="startdate_1">Start Date:</label>
+                                <div class="col-sm-9">
+                                  <input type="text" disabled  class="form-control" value="<%= exp[i].esdate %>">
+                                </div>
+                              </div>
+
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" >End Date:</label>
+                                <div class="col-sm-9">
+                                  <input type="date"   disabled   class="form-control" value="<%= exp[i].eedate %>">
+                                </div>
+                              </div>
+                                <label class="col-sm-2 control-label"   style="margin-top: 10px;">Description:</label>
+                                <div class="col-sm-9">
+                                  <textarea class="field span5"   rows="5" 
+                                 style="width: 100%; " disabled><%= exp[i].description %></textarea>                                
+                                </div>                                                                                              
+                              </div>                              
+                          </div>
+                        </div>                        
+                    </div>
+                    <div>                    		           	
+               </div>
+            
+            <% } %>
+                </div>
+	               <div class="container" >
+	               <h4><legend>Project Details</legend></h4>
+                 <% for(var i=0 ;i <prj.length ; i++){%>       
+                <div class="row" >
+                    <div class="col-xs-6 col-sm-8 col-md8">
+                        <div class="well well-sm">
+                          <div class="row bshadow">
+                             <center><legend>Project <%= i+1%></legend></center>
+                             
+                             <div class="form-group">
+                          
+                                <label class="col-sm-2 control-label" for="companyName_1">ProjectName:</label>
+                                <div class="col-sm-9">
+                                  <input type="text"  disabled  class="form-control" value="<%= prj[i].name %>">
+                                </div>
+                              </div>
+
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="inputTitle_1">Company:</label>
+                                <div class="col-sm-9">
+                                  <input type="text"  disabled class="form-control" value="<%= prj[i].company %>" >
+                                </div>
+                              </div>            
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="startdate_1">Start Date:</label>
+                                <div class="col-sm-9">
+                                  <input type="text" disabled  class="form-control" value="<%= prj[i].psdate %>">
+                                </div>
+                              </div>
+
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" >End Date:</label>
+                                <div class="col-sm-9">
+                                  <input type="date"   disabled   class="form-control" value="<%= prj[i].pedate %>">
+                                </div>
+                              </div>
+                                <label class="col-sm-2 control-label"   style="margin-top: 10px;">Description:</label>
+                                <div class="col-sm-9">
+                                  <textarea class="field span5"   rows="5" 
+                                 style="width: 100%; " disabled><%= prj[i].description %></textarea>                                
+                                </div>                                                                                              
+                              </div>                              
+                          </div>
+                        </div>                        
+                    </div>
+                    <div>                    		           	
+               </div>
+            
+            <% } %>
+                </div>
+            
+            
+	            <div class="container" >
+	            <h4><legend>Education Details</legend></h4>
+                 <% for(var i=0 ;i <edu.length ; i++){%>       
+                <div class="row" >
+                    <div class="col-xs-6 col-sm-8 col-md8">
+                        <div class="well well-sm">
+                          <div class="row bshadow">
+                             <center><legend>Education <%= i+1%></legend></center>
+                             
+                             <div class="form-group">
+                          
+                                <label class="col-sm-2 control-label" for="companyName_1">School:</label>
+                                <div class="col-sm-9">
+                                  <input type="text"  disabled  class="form-control" value="<%= edu[i].univ_name %>">
+                                </div>
+                              </div>
+
+                              
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="inputTitle_1">Field:</label>
+                                <div class="col-sm-9">
+                                  <input type="text"  disabled class="form-control" value="<%= edu[i].field %>" >
+                                </div>
+                              </div>  
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="level_1">Degree level:</label>
+                                <div class="col-sm-9">
+                                  <input type="text"  disabled class="form-control" value="<%= edu[i].level %>" >
+                                </div>
+                              </div>  
+                              <!-- Text input-->
+                             
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="startdate_1">Start Date:</label>
+                                <div class="col-sm-9">
+                                  <input type="text" disabled  class="form-control" value="<%= edu[i].esdate %>">
+                                </div>
+                              </div>
+
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" >End Date:</label>
+                                <div class="col-sm-9">
+                                  <input type="date"   disabled   class="form-control" value="<%= edu[i].eedate %>">
+                                </div>
+                              </div>
+                                <label class="col-sm-2 control-label"   style="margin-top: 10px;">Description:</label>
+                                <div class="col-sm-9">
+                                  <textarea class="field span5"   rows="5" 
+                                 style="width: 100%; " disabled><%= edu[i].description %></textarea>                                
+                                </div>                                                                                              
+                              </div>                              
+                          </div>
+                        </div>                        
+                    </div>
+                    <div>                    		           	
+               </div>
+            
+            <% } %>
+                </div>
+	 
+	 <!--above  -->
+	</div>
+	
+	<div class="col-md-3">
+		<div ></div>
+	</div>
+
+</div>
+
+ 
+  </body>
+  
+  <script>
+
+  </script>
+</html>

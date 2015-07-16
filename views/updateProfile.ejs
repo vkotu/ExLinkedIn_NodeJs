@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+     <script src="/js/sweet-alert.js"></script>
+     <link rel="stylesheet" href="/stylesheets/sweet-alert.css">
+     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+     
+	<script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+	 
+	<script src ="/js/addexprow.js"></script>
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+		    	<script >
+	    	
+	    	function profController($scope,$http,$location) {
+	    		$scope.savePersonal=function(){
+	    	    	$http({
+	    	            method: 'POST',
+	    	            url: '/save',
+	    	        	data: { "firstname": $scope.fname, "lastname": $scope.lname,"staus":$scope.status,"location":$scope.location}
+	    	            
+	    	         }).success(function(response){
+	    	           
+	    	            alert(JSON.stringify(response));
+	    	            
+	    	            if(response.status == "success"){
+	    	            	alert("Personal information has been saved successfuly ","","success");
+                    	 	$('#loadsym').html("");
+	    	            }
+	    	            else
+	    	            	alert("Oops!",response.msg,"error");
+	    	        }).error(function(error){
+	    	        	alert("Oops! some thing went wrong",error,"error");
+	    	        });	    			
+	    		};
+	    	    
+	    		$scope.signOut = function() {
+	    	    	$http({
+	    	            method: 'GET',
+	    	            url: '/signout',
+	    	        //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+	    	            
+	    	         }).success(function(response){
+	    	           
+	    	            alert(JSON.stringify(response));
+	    	            
+	    	            if(response.status == "success")
+	    	           		window.location = '/';
+	    	            else
+	    	            	sweetAlert("Oops!",response.msg,"error");
+	    	        }).error(function(error){
+	    	        	sweetAlert("Oops! some thing went wrong",error,"error");
+	    	        });
+	    	    };
+	    	    
+
+	    		$scope.getSearch = function() {
+	    	    	$http({
+	    	            method: 'GET',
+	    	            url: '/verifyUser',
+	    	        //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+	    	            
+	    	         }).success(function(response){
+	    	           
+	    	            alert(JSON.stringify(response));
+	    	            
+	    	            if(response.status == "success"){
+	    	            	//alert('hi');
+	    	            	window.location = '/getSearch';
+	    	            }           		
+	    	            else
+	    	            	sweetAlert("Oops! some thing went wrong",response.msg,"error");
+	    	        }).error(function(error){
+	    	        	sweetAlert("Oops! ",error,"error");
+	    	        });
+	    	    };    
+	    	    $scope.showProfile = function(){
+	    	    	$http({
+	    	            method: 'GET',
+	    	            url: '/verifyUser',
+	    	        //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+	    	            
+	    	         }).success(function(response){
+	    	           
+	    	            alert(JSON.stringify(response));
+	    	            
+	    	            if(response.status == "success")
+	    	           		window.location = '/showProfile';
+	    	            else
+	    	            	sweetAlert("Oops! some thing went wrong",response.msg,"error");
+	    	        }).error(function(error){
+	    	        	sweetAlert("Oops! ",error,"error");
+	    	        });
+	    	    };
+	    		$scope.showHomepage = function (){
+	    			$http({
+	    		        method: 'GET',
+	    		        url: '/verifyUser',
+	    		    //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+	    		        
+	    		     }).success(function(response){
+	    		       
+	    		        alert(JSON.stringify(response));
+	    		        
+	    		        if(response.status == "success")
+	    		       		window.location = '/successLogin';
+	    		        else
+	    		        	sweetAlert("Oops! some thing went wrong",response.msg,"error");
+	    		    }).error(function(error){
+	    		    	sweetAlert("Oops! ",error,"error");
+	    		    });
+	    		};	
+	    	
+	    	    
+	    	    $scope.getConnect = function(){
+	    	    	$http({
+	    	            method: 'GET',
+	    	            url: '/verifyUser',
+	    	        //    data: { "username": $scope.inputUsername, "password": $scope.inputPassword }
+	    	            
+	    	         }).success(function(response){
+	    	           
+	    	            alert(JSON.stringify(response));
+	    	            
+	    	            if(response.status == "success")
+	    	           		window.location = '/getConnect';
+	    	            else
+	    	            	sweetAlert("Oops! ",response.msg,"error");
+	    	        }).error(function(error){
+	    	        	sweetAlert("Oops! some thing went wrong",error,"error");
+	    	        });
+	    	    };
+	    	    
+	    	    $scope.saveSummary = function() {
+	    	    	  
+	    	    	  var sum = document.getElementById('usersummary').value;
+	    	    	  
+	    	    	  if(!sum) {
+	    	    		  sweetAlert("Oops!!","Please Enter summary to save","error");
+	    	    		  return false;
+	    	    	  }else{
+	    	    		  sum = sum.trim();
+	    	    		  $('#loadsym').html("<img src='/photos/loading.gif'>");
+	    	              $http({
+	    	                    method: 'POST',
+	    	                    url: '/saveSummary',
+	    	                    data: { 
+	    	                            "summary": sum, 
+	    	                           }
+	    	                    
+	    	                 }).success(function(response){
+	    	                   
+	    	                    alert(JSON.stringify(response));
+	    	                    
+	    	                    if(response.status == "success"){
+	    	                     	sweetAlert("Summary has been saved successfuly ","","success");
+	    	                     	 $('#loadsym').html("");
+	    	                    }
+	    	                    else{
+	    	                    	sweetAlert("Oops!",response.msg,"error");
+	    	                    	$('#loadsym').html("");
+	    	                    }
+	    	                }).error(function(error){
+	    	                	sweetAlert("Oops!",error,"error");
+	    	                });  
+	    	    	  }
+	    	        };
+
+	    		    $scope.saveExp = function() {
+	    		    	  
+	    		    	  var no_of_exp =  parseInt(document.getElementById('exp_row_cnt').value);
+	    		    	  var exp_data = {};
+	    		    	  //alert("rows = "+$("#exp_row_cnt").val());
+	    		    	  for(var i = 1 ; i <= no_of_exp ; i++){
+	    		    		  var id = "companyName_"+i;
+	    		    		 // alert(id);
+	    		    		   var comp =document.getElementById(id).value;
+	    		    		   comp = comp.trim();	    		    		  
+	    		    		  if(!comp){
+	    		    			  sweetAlert("Oops!","Please Provide Company Name for Experiences","error");
+	    		    			  return false;
+	    		    		  }else{
+	    		    			  $('#loadsym2').html("<img src='/photos/loading.gif'>");
+	    		    			  exp_data["row_"+i] = { 
+	    		    					  	    					  
+	    		    				"companyname" : document.getElementById("companyName_"+i).value.trim(),
+	    		    				"title" : document.getElementById("inputTitle_"+i).value.trim(),
+	    		    				"location" : document.getElementById("inputLocation_"+i).value.trim(),
+	    		    				"sdate" : document.getElementById("startdate_"+i).value.trim(),
+	    		    				"edate" : document.getElementById("enddate_"+i).value.trim(),
+	    		    				"desc" : document.getElementById("inputDescription_"+i).value.trim()
+	    		    			  };
+	    		    		  }
+	    		    		  
+	    		    		  
+	    		    	  }
+	    		    	 // alert(exp_data);
+	    		    	  
+	    		    	  //return false;
+	    		              $http({
+	    		                    method: 'POST',
+	    		                    url: '/saveExp',
+	    		                    data: {'data': exp_data}
+	    		                    
+	    		                 }).success(function(response){
+	    		                   
+	    		                    alert(JSON.stringify(response));
+	    		                    
+	    		                    if(response.status == "success"){
+	    		                     	sweetAlert("Experience has been saved successfuly ","","success");
+	    		                    $('#loadsym2').html("");
+	    		                    location.reload();
+	    		                    }
+	    		                    else{
+	    		                    	$('#loadsym2').html("");
+	    		                    	sweetAlert("Oops!",response.msg,"error");
+	    		                    }
+	    		                    	
+	    		                }).error(function(error){
+	    		                	sweetAlert("Oops!",error,"error");
+	    		                	$('#loadsym2').html("");
+	    		                });  
+	    		    	  
+	    		        };
+	    		        $scope.saveEdu = function() {
+		    		    	  
+		    		    	  var no_of_edu =  parseInt(document.getElementById('edu_row_cnt').value);
+		    		    	 
+		    		    	  var last_edu_row_cnt = parseInt(document.getElementById('last_edu_row_cnt').value);
+		    		    	  var edu_data = {};
+		    		    	  //alert("rows = "+$("#exp_row_cnt").val());
+		    		    	  for(var i = 1 ; i <= last_edu_row_cnt ; i++){
+		    		    		  var id = "school_"+i;
+		    		    		  if(document.getElementById(id)){
+				    		    		 // alert(id);
+			    		    		   var comp =document.getElementById(id).value;
+			    		    		   comp = comp.trim();	    		    		  
+			    		    		  if(!comp){
+			    		    			  sweetAlert("Oops!","Please Provide School Name","error");
+			    		    			  return false;
+			    		    		  }else{
+			    		    			  $('#loadsym4').html("<img src='/photos/loading.gif'>");
+			    		    			  edu_data["row_"+i] = { 
+			    		    					  	    					  
+			    		    				"school" : document.getElementById("school_"+i).value.trim(),
+			    		    				"level" : document.getElementById("level_"+i).value.trim(),
+			    		    				"field" : document.getElementById("field_"+i).value.trim(),
+			    		    				"sdate" : document.getElementById("startdate1_"+i).value.trim(),
+			    		    				"edate" : document.getElementById("enddate1_"+i).value.trim(),
+			    		    				"desc" : document.getElementById("desc1_"+i).value.trim()
+			    		    			  };
+			    		    		  }
+			    		    		  		    		    			  
+		    		    		  }
+
+		    		    		  
+		    		    	  }
+		    		    	 // alert(exp_data);
+		    		    	  
+		    		    	  //return false;
+		    		              $http({
+		    		                    method: 'POST',
+		    		                    url: '/saveEdu',
+		    		                    data: {'data': edu_data}
+		    		                    
+		    		                 }).success(function(response){
+		    		                   
+		    		                    alert(JSON.stringify(response));
+		    		                    
+		    		                    if(response.status == "success"){
+		    		                     	sweetAlert("Experience has been saved successfuly ","","success");
+		    		                    $('#loadsym4').html("");
+		    		                    location.reload();
+		    		                    }
+		    		                    else{
+		    		                    	$('#loadsym4').html("");
+		    		                    	sweetAlert("Oops!",response.msg,"error");
+		    		                    }
+		    		                    	
+		    		                }).error(function(error){
+		    		                	sweetAlert("Oops!",error,"error");
+		    		                	$('#loadsym4').html("");
+		    		                });  
+		    		    	  
+		    		        };	    		        
+		    		        $scope.savePrj = function() {
+			    		    	  
+			    		    	  var no_of_prj =  parseInt(document.getElementById('prj_row_cnt').value);
+			    		    	  var last_prj_row_cnt = parseInt(document.getElementById('last_prj_row_cnt').value);
+			    		    	  var prj_data = {};
+			    		    	  //alert("rows = "+$("#exp_row_cnt").val());
+			    		    	  for(var i = 1 ; i <= last_prj_row_cnt ; i++){
+			    		    		  var id = "prjName_"+i;
+			    		    		  if(document.getElementById(id)){
+					    		    		 // alert(id);
+				    		    		   var comp =document.getElementById(id).value;
+				    		    		   comp = comp.trim();	    		    		  
+				    		    		  if(!comp){
+				    		    			  sweetAlert("Oops!","Please Provide Project Name","error");
+				    		    			  return false;
+				    		    		  }else{
+				    		    			  $('#loadsym3').html("<img src='/photos/loading.gif'>");
+				    		    			  prj_data["row_"+i] = { 
+				    		    					  	    					  
+				    		    				"name" : document.getElementById("prjName_"+i).value.trim(),
+				    		    				"company" : document.getElementById("prjComp_"+i).value.trim(),
+				    		    				"sdate" : document.getElementById("prjstartdate_"+i).value.trim(),
+				    		    				"edate" : document.getElementById("prjenddate_"+i).value.trim(),
+				    		    				"desc" : document.getElementById("prjDescription_"+i).value.trim()
+				    		    			  };
+				    		    		  }
+			    		    		  }    				    		    		 
+			    		    	  }
+			    		    	 // alert(exp_data);
+			    		    	  
+			    		    	  //return false;
+			    		              $http({
+			    		                    method: 'POST',
+			    		                    url: '/savePrj',
+			    		                    data: {'data': prj_data}
+			    		                    
+			    		                 }).success(function(response){
+			    		                   
+			    		                    alert(JSON.stringify(response));
+			    		                    
+			    		                    if(response.status == "success"){
+			    		                     	sweetAlert("Project has been saved successfuly ","","success");
+			    		                    $('#loadsym3').html("");
+			    		                    location.reload();
+			    		                    }
+			    		                    else{
+			    		                    	$('#loadsym3').html("");
+			    		                    	sweetAlert("Oops!",response.msg,"error");
+			    		                    }
+			    		                    	
+			    		                }).error(function(error){
+			    		                	sweetAlert("Oops!",error,"error");
+			    		                	$('#loadsym3').html("");
+			    		                });  
+			    		    	  
+			    		        };	    		        
+			    		        $scope.saveSkills= function() {
+				    		    	  
+				    		    	  var no_of_skills =  parseInt(document.getElementById('skillcount').value);
+				    		    	  var last_skill_row = parseInt(document.getElementById('last_skill_row').value);
+				    		    	  var skill_data = [];
+				    		    	  if(no_of_skills == 0){
+			    		    			  sweetAlert("Oops!","Please Provide atleast one skill","error");
+			    		    			  return false;
+				    		    	  }else{
+					    		    	  //alert("rows = "+$("#exp_row_cnt").val());
+					    		    	  for(var i = 1 ; i <= last_skill_row ; i++){
+					    		    		  var id = "skilldata_"+i;
+					    		    		 // alert(id);
+					    		    		 if(document.getElementById(id)){
+						    		    		   var skill =document.getElementById(id).value;
+						    		    		   skill = skill.trim();	    		    		  
+						    		    		  if(!skill){
+
+						    		    		  }else{
+						    		    			  $('#loadsym1').html("<img src='/photos/loading.gif'>");
+/* 						    		    			  skill_data["row_"+i] = { 						    		    					  	    					  
+						    		    				"skill" :skill,
+						    		    			  }; */
+						    		    			  skill_data.push(skill);
+						    		    			  
+						    		    		  } 
+					    		    		 }		    		  
+					    		    		  
+					    		    	  }			    		    		  
+				    		    	  }
+
+				    		    	 // alert(exp_data);
+				    		    	  
+				    		    	  //return false;
+				    		              $http({
+				    		                    method: 'POST',
+				    		                    url: '/saveSkills',
+				    		                    data: {'data': skill_data}
+				    		                    
+				    		                 }).success(function(response){
+				    		                   
+				    		                    alert(JSON.stringify(response));
+				    		                    
+				    		                    if(response.status == "success"){
+				    		                     	sweetAlert("Skills has been saved successfuly ","","success");
+				    		                    $('#loadsym1').html("");
+				    		                    $('#skilldiv').html("");
+				    		                    location.reload();
+				    		                    }
+				    		                    else{
+				    		                    	$('#loadsym1').html("");
+				    		                    	sweetAlert("Oops!",response.msg,"error");
+				    		                    }
+				    		                    	
+				    		                }).error(function(error){
+				    		                	sweetAlert("Oops!",error,"error");
+				    		                	$('#loadsym1').html("");
+				    		                	$('#skilldiv').html("");
+				    		                });  
+				    		    	  
+				    		        };			    
+	    		        
+	    }
+	    	
+	    	
+	    	
+	    	</script>
+  <style>
+.bfloatr{
+	float:right;
+	
+}
+.bfloatr1{
+	float:right;
+	text-align:left;
+	
+}
+  </style>
+  
+  
+ </head>
+  <body ng-app="" ng-controller="profController" style="margin-top: -50px;margin-left: -50px;margin-right: -50px;">
+  
+  <nav class="navbar navbar-inverse">
+  <div class="container-fluid bgblue">
+    <div class="navbar-header">
+      <img src="/photos/lnlogo.gif" style="margin-left: 150px;margin-top: 7px;">
+    </div>
+    <div>
+      <ul class="nav navbar-nav">
+        
+        <li ><a  href  ng-click="showHomepage()">Home</a></li>
+        <li class="active"><a href ng-click="showProfile()">Edit Profile</a></li>
+        <li><a href ng-click="getConnect()">Connect</a></li>
+        <li><a href ng-click="getSearch()">Search Users</a></li>
+        <li><a href ng-click="signOut()">Sign Out</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="container">
+    <h1>Edit Profile</h1>
+    <hr>
+  <div class="row">
+      <!-- left column -->
+      <div class="col-md-3">
+        <div class="text-center">
+          <img src="/photos/venkat_large.jpg" class="avatar img-circle" alt="avatar">
+          
+        </div>
+      </div>
+      
+      <!-- edit form column -->
+      <div class="col-md-9 personal-info">
+        
+        <h3>Personal info</h3>
+        
+        
+              <!-- Summary -->
+                    <div class="container">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-8 col-md8">
+                        <div class="well well-sm">
+                          <div class="row bshadow">
+                             <center><legend>Personal info</legend></center>
+                             <form ng-submit="savePersonal()">
+                             <div class="form-group">
+                    
+                                 <label class="col-sm-2 control-label" for="skill">First Name:</label>
+                                <div class="col-sm-9">
+                                  <input type="text" ng-model="fname" id="first_name" name="firstname" placeholder="" class="form-control"/><br/>                                                              
+						        </div>
+
+                                 
+                           
+                          
+                    
+                                 <p><label class="col-sm-2 control-label" for="skill">Last Name:</label>
+                                <div class="col-sm-9">
+                                  <input type="text" ng-model="lname" id="last_name" name="lastname" placeholder="" class="form-control"/><br/></p>                                                              
+						        </div>
+
+                                 
+                             </div>
+                                                          
+                             <div class="form-group">
+                    
+                                 <label class="col-sm-2 control-label" for="skill">Location:</label>
+                                <div class="col-sm-9">
+                                  <input type="text" ng-model="location" id="" name="" placeholder="" class="form-control"/><br/>                                                              
+						        </div>
+
+                                 
+                             </div>
+                             <div class="col-md-6 bfloatr">
+                             	<span id="loadsym"></span>
+					              <input type="submit" class="btn btn-primary" value="Save Changes">
+					              <span></span>
+					              <input type="reset" class="btn btn-default" value="Cancel">
+					            </div>
+                             </form>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <div class="container">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-8 col-md8">
+                        <div class="well well-sm">
+                          <div class="row bshadow">
+                             <center><legend>Summary</legend></center>
+                             <form ng-submit="saveSummary()">
+                             <div class="form-group">
+                    
+                                 <textarea  name="userSummary" id="usersummary" class="field span5" rows="5" 
+                                
+                                 style="width: 80%; height: 80%; margin-left:70px"><%= userdetails.summary %></textarea>
+                                 
+                             </div>
+                             <div class="col-md-6 bfloatr">
+                             	<span id="loadsym"></span>
+					              <input type="submit" class="btn btn-primary" value="Save Changes">
+					              <span></span>
+					              <input type="reset" class="btn btn-default" value="Cancel">
+					            </div>
+                             </form>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+                 <div class="container">
+                <div class="row">
+                    <div class="col-xs-6 col-sm-8 col-md8">
+                        <div class="well well-sm">
+                          <div class="row bshadow">
+                             <center><legend>Skills</legend></center>
+                             <form ng-submit="saveSkills()">
+                             <div class="form-group">
+                          
+                                <label class="col-sm-2 control-label" for="skill">Add SKill:</label>
+                                <div class="col-sm-6">
+                                  <input type="text" ng-model="skill" id="skill" name="skill" placeholder="" class="form-control"/><br/>                                                              
+						        </div>
+						        <div class ="col-sm-4">	<button onclick="addskill()" type="button" class="btn btn-default btn-lg inline skillbutton">
+							  <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add
+							</button></div>
+						<div class="col-md-6" id="skilldiv">	
+						
+						
+							<div id="skillrow_0"></div>  
+						
+						
+							<% for(var i=1 ;i <= skilllen ; i++){%>  
+							<div id="skillrow_<%=i%>"><%= skill[i-1].skillset %> <input type="hidden" value="<%=skill[i-1].skillset %>" id="skilldata_<%=i%>" />
+							<button onclick='delskillrow(<%=i%>)' type='button' class='btn btn-default btn-lg inline removeskill'>
+		  					<span class='glyphicon glyphicon-minus' aria-hidden='true'></span> Del
+								</button></div>
+								
+								<%}%>
+							
+					
+						
+						
+						
+						</div>                             
+                             <div class="col-md-6 bfloatr">
+                             	<span id="loadsym1"></span>
+					              <input type="submit" class="btn btn-primary" value="Save Changes">
+					              <span></span>
+					              <input type="reset" class="btn btn-default" value="Cancel">
+					            </div>
+					            
+					             </div>
+                             </form>
+                          </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
+              <div class="container" >
+              <form ng-submit="saveExp()">  
+              <%if(exp_flag) { %>
+              <% for(var i=0 ;i < explen ; i++){%>              
+                <div class="row" id="exp_row_<%= i+1 %>">
+                    <div class="col-xs-6 col-sm-8 col-md8">
+                        <div class="well well-sm">
+                          <div class="row bshadow">
+                             <center><legend>Experience <%= i+1 %></legend></center>
+                             
+                             <div class="form-group">
+                          
+                                <label class="col-sm-2 control-label" for="companyName_<%= i+1 %>">CompanyName:</label>
+                                <div class="col-sm-9">
+                                  <input type="text"  id="companyName_<%= i+1 %>" value="<%=exp[i].company_name %>" name="companyName_<%= i+1 %>" placeholder="" class="form-control">
+                                </div>
+                              </div>
+
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="inputTitle_<%= i+1 %>">Title:</label>
+                                <div class="col-sm-9">
+                                  <input type="text"  id="inputTitle_<%= i+1 %>" value="<%= exp[i].title %>" name="inputTitle_<%= i+1 %>" placeholder="" class="form-control">
+                                </div>
+                              </div>
+
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="inputLocation_<%= i+1 %>">Location:</label>
+                                <div class="col-sm-9">
+                                  <input type="text" value="<%= exp[i].location %>" id="inputLocation_<%= i+1 %>" name="inputLocation_<%= i+1 %>" placeholder="" class="form-control">
+                                </div>
+                              </div>
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="startdate_<%= i+1 %>">Start Date:</label>
+                                <div class="col-sm-9">
+                                  <input type="text" value="<%= exp[i].esdate %>" id="startdate_<%= i+1 %>" name="startdate_<%= i+1 %>" required placeholder="YYYY-MM-DD" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" class="form-control">
+                                </div>
+                              </div>
+
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="enddate_<%= i+1 %>">End Date:</label>
+                                <div class="col-sm-9">
+                                  <input type="date" value="<%= exp[i].eedate %>" id="enddate_<%= i+1 %>" name="enddate_<%= i+1 %>" required placeholder="YYYY-MM-DD" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" class="form-control">
+                                </div>
+                              </div>
+                                <label class="col-sm-2 control-label"  for="inputDescription_<%= i+1 %>" style="margin-top: 10px;">Description:</label>
+                                <div class="col-sm-9">
+                                  <textarea class="field span5"  name="inputDescription_<%= i+1 %>" rows="5" id="inputDescription_<%= i+1 %>" 
+                                 style="width: 100%; "><%= exp[i].description %></textarea>                                
+                                </div>    
+							<%if(i>0){%>
+                              <input type='button' class='bfloatr'  onclick='delexprow(<%=i+1%>)' value='Delete Experience' />
+                              <%}%>                                                                                            
+                              </div>  
+                          
+                          </div>
+                        </div>                        
+                    </div>
+                    <% } %>              
+              <%} else { %>
+                <% for(var i=0 ;i < explen ; i++){%>              
+                <div class="row" id="exp_row_<%= i+1 %>">
+                    <div class="col-xs-6 col-sm-8 col-md8">
+                        <div class="well well-sm">
+                          <div class="row bshadow">
+                             <center><legend>Experience <%= i+1 %></legend></center>
+                             
+                             <div class="form-group">
+                          
+                                <label class="col-sm-2 control-label" for="companyName_<%= i+1 %>">CompanyName:</label>
+                                <div class="col-sm-9">
+                                  <input type="text"  id="companyName_<%= i+1 %>" value="" name="companyName_<%= i+1 %>" placeholder="" class="form-control">
+                                </div>
+                              </div>
+
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="inputTitle_<%= i+1 %>">Title:</label>
+                                <div class="col-sm-9">
+                                  <input type="text"  id="inputTitle_<%= i+1 %>" value="" name="inputTitle_<%= i+1 %>" placeholder="" class="form-control">
+                                </div>
+                              </div>
+
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="inputLocation_<%= i+1 %>">Location:</label>
+                                <div class="col-sm-9">
+                                  <input type="text" value="" id="inputLocation_<%= i+1 %>" name="inputLocation_<%= i+1 %>" placeholder="" class="form-control">
+                                </div>
+                              </div>
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="startdate_<%= i+1 %>">Start Date:</label>
+                                <div class="col-sm-9">
+                                  <input type="text" value="" id="startdate_<%= i+1 %>" name="startdate_<%= i+1 %>" required placeholder="YYYY-MM-DD" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" class="form-control">
+                                </div>
+                              </div>
+
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="enddate_<%= i+1 %>">End Date:</label>
+                                <div class="col-sm-9">
+                                  <input type="date" value="" id="enddate_<%= i+1 %>" name="enddate_<%= i+1 %>" required placeholder="YYYY-MM-DD" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" class="form-control">
+                                </div>
+                              </div>
+                                <label class="col-sm-2 control-label"  for="inputDescription_<%= i+1 %>" style="margin-top: 10px;">Description:</label>
+                                <div class="col-sm-9">
+                                  <textarea class="field span5"  name="inputDescription_<%= i+1 %>" rows="5" id="inputDescription_<%= i+1 %>" 
+                                 style="width: 100%; "></textarea>                                
+                                </div>    
+							<%if(i>0){%>
+                              <input type='button' class='bfloatr'  onclick='delexprow(<%=i+1%>)' value='Delete Experience' />
+                              <%}%>                                                                                            
+                              </div>  
+                          
+                          </div>
+                        </div>                        
+                    </div>
+                    <% } %>            
+              <% } %>
+
+                    <div>
+                    <span>
+                    <input type="button"  onclick="appendexprow()" value="Add Experience" />
+                    
+                    <!-- <button addbuttons>Add Exp</button> -->
+                    </span>
+                    
+                             <span class="col-md-6 bfloatr">
+                             <span id="loadsym2"></span>
+					              <input type="submit" class="btn btn-primary" value="Save Changes">
+					              
+					              <input type="reset" class="btn btn-default" value="Cancel">
+					            </span>
+					            
+					   
+                </div>
+                </form>
+                </div>
+                <br/>
+              <div class="container" >
+              <form ng-submit="savePrj()">   
+              <% if(prj_flag) { %>
+               <% for(var i=0 ;i < prjlen ; i++){%>             
+                <div class="row" id="prj_row_<%= i+1 %>">
+                    <div class="col-xs-6 col-sm-8 col-md8">
+                        <div class="well well-sm">
+                          <div class="row bshadow">
+                             <center><legend>Project <%=i+1 %></legend></center>                             
+                             <div class="form-group">                          
+                                <label class="col-sm-2 control-label" for="prjName_<%= i+1 %>">ProjectName:</label>
+                                <div class="col-sm-9">
+                                  <input type="text" value="<%= prj[i].name %>" id="prjName_<%= i+1 %>" name="prjName_<%= i+1 %>" placeholder="" class="form-control">
+                                </div>
+                              </div>
+
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="prjComp">Company:</label>
+                                <div class="col-sm-9">
+                                  <input type="text" value="<%= prj[i].company %>" id="prjComp_<%= i+1 %>" name="prjComp_<%= i+1 %>" placeholder="" class="form-control">
+                                </div>
+                              </div>
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="prjstartdate_<%= i+1 %>">Start Date:</label>
+                                <div class="col-sm-9">
+                                  <input type="text" value="<%= prj[i].psdate %>" required id="prjstartdate_<%= i+1 %>" name="prjstartdate_<%= i+1 %>" placeholder="YYYY-MM-DD" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" class="form-control">
+                                </div>
+                              </div>
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="prjenddate_<%= i+1 %>">End Date:</label>
+                                <div class="col-sm-9">
+                                  <input type="date" value="<%= prj[i].pedate %>" required id="prjenddate_<%= i+1 %>" name="prjenddate_<%= i+1 %>" placeholder="YYYY-MM-DD" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" class="form-control">
+                                </div>
+                              </div>
+                                <label class="col-sm-2 control-label"  for="prjDescription_<%= i+1 %>" style="margin-top: 10px;">Description:</label>
+                                <div class="col-sm-9">
+                                  <textarea class="field span5"  name="prjDescription_<%= i+1 %>" rows="5" id="prjDescription_<%= i+1 %>" 
+                                 style="width: 100%; "><%= prj[i].description %></textarea>                                 
+                                </div>
+                             <%if(i>0){%>
+                              <input type='button' class='bfloatr'  onclick='delprjrow(<%=i+1%>)' value='Delete Project' />
+                              <%}%>                                                                                                
+                              </div>  
+                                                          
+                          </div>
+                        </div>
+                        
+                    </div>
+                    <% } %>
+                 <% } else{%>
+               <% for(var i=0 ;i < prjlen ; i++){%>             
+                <div class="row" id="prj_row_<%= i+1 %>">
+                    <div class="col-xs-6 col-sm-8 col-md8">
+                        <div class="well well-sm">
+                          <div class="row bshadow">
+                             <center><legend>Project <%=i+1 %></legend></center>                             
+                             <div class="form-group">                          
+                                <label class="col-sm-2 control-label" for="prjName_<%= i+1 %>">ProjectName:</label>
+                                <div class="col-sm-9">
+                                  <input type="text" value="" id="prjName_<%= i+1 %>" name="prjName_<%= i+1 %>" placeholder="" class="form-control">
+                                </div>
+                              </div>
+
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="prjComp">Company:</label>
+                                <div class="col-sm-9">
+                                  <input type="text" value="" id="prjComp_<%= i+1 %>" name="prjComp_<%= i+1 %>" placeholder="" class="form-control">
+                                </div>
+                              </div>
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="prjstartdate_<%= i+1 %>">Start Date:</label>
+                                <div class="col-sm-9">
+                                  <input type="text" value="" required id="prjstartdate_<%= i+1 %>" name="prjstartdate_<%= i+1 %>" placeholder="YYYY-MM-DD" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" class="form-control">
+                                </div>
+                              </div>
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="prjenddate_<%= i+1 %>">End Date:</label>
+                                <div class="col-sm-9">
+                                  <input type="date" value="" required id="prjenddate_<%= i+1 %>" name="prjenddate_<%= i+1 %>" placeholder="YYYY-MM-DD" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" class="form-control">
+                                </div>
+                              </div>
+                                <label class="col-sm-2 control-label"  for="prjDescription_<%= i+1 %>" style="margin-top: 10px;">Description:</label>
+                                <div class="col-sm-9">
+                                  <textarea class="field span5"  name="prjDescription_<%= i+1 %>" rows="5" id="prjDescription_<%= i+1 %>" 
+                                 style="width: 100%; "></textarea>                                 
+                                </div>
+                             <%if(i>0){%>
+                              <input type='button' class='bfloatr'  onclick='delprjrow(<%=i+1%>)' value='Delete Project' />
+                              <%}%>                                                                                                
+                              </div>  
+                                                          
+                          </div>
+                        </div>
+                        
+                    </div>
+                    <% } %>                 
+                 <% } %>
+                    <div>
+                    <span>
+                    <input type="button"  onclick="addprjrow()" value="Add Project" />                    
+                    <!-- <button addbuttons>Add Exp</button> -->
+                    </span>
+                    
+                             <span class="col-md-6 bfloatr">
+                             <span id="loadsym3"></span>
+					              <input type="submit" class="btn btn-primary" value="Save Changes">
+					              
+					              <input type="reset" class="btn btn-default" value="Cancel">
+					            </span>
+					            
+					   
+                </div>
+                </form>
+                </div>
+                <br/>
+              <div class="container">
+              <form ng-submit="saveEdu()">
+              <% if(edu_flag) { %> 
+              <% for(var i=0 ;i < edulen ; i++){%>  
+                <div class="row" id="edu_row_<%= i+1 %>">
+                    <div class="col-xs-6 col-sm-8 col-md8">
+                        <div class="well well-sm">
+                          <div class="row bshadow">
+                          
+                             <center><legend>Education <%= i+1 %></legend></center>
+                             <div class="form-group">
+                                <label class="col-sm-2 control-label" for="school_<%= i+1 %>">School:</label>
+                                <div class="col-sm-9">
+                                  <input type="text" value="<%= edu[i].univ_name %>"  id = "school_<%= i+1 %>" name="school_<%= i+1 %>" placeholder="" class="form-control">
+                                </div>
+                              </div>
+
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="field_<%= i+1 %>">Field:</label>
+                                <div class="col-sm-9">
+                                  <input type="text" value="<%= edu[i].field %>"  name="field_<%= i+1 %>"  id="field_<%= i+1 %>" placeholder="" class="form-control">
+                                </div>
+                              </div>
+
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="level_<%= i+1 %>">Degree level:</label>
+                                <div class="col-sm-9">
+                                  <input type="text" value="<%= edu[i].level %>" name="level_<%= i+1 %>" id="level_<%= i+1 %>" placeholder="" class="form-control">
+                                </div>
+                              </div>
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="startdate1_<%= i+1 %>" >Start Date:</label>
+                                <div class="col-sm-9">
+                                  <input type="date" value="<%= edu[i].esdate %>" name="startdate1_<%= i+1 %>" id="startdate1_<%= i+1 %>" placeholder="YYYY-MM-DD" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" placeholder="" required class="form-control">
+                                </div>
+                              </div>
+
+                                <div class="form-group">
+                                <label class="col-sm-2 control-label" for="enddate1_<%= i+1 %>">End Date:</label>
+                                <div class="col-sm-9">
+                                  <input type="date" value="<%= edu[i].eedate %>" name="enddate1_<%= i+1 %>" id="enddate1_<%= i+1 %>"  placeholder="YYYY-MM-DD" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" required class="form-control">
+                                </div>
+                              </div>
+
+                                <label class="col-sm-2 control-label" for="desc1_<%= i+1 %>" style="margin-top: 10px;">Description:</label>
+                                <div class="col-sm-9">
+                                  <textarea class="field span5"  name="desc1_<%= i+1 %>" rows="5" id="desc1_<%= i+1 %>" 
+                                 style="width: 100%; "><%= edu[i].description %></textarea>
+                                </div>
+                                
+                                							<%if(i>0){%>
+                              <input type='button' class='bfloatr'  onclick='deledurow(<%=i+1%>)' value='Delete Education' />
+                              <%}%>                                                                                                                 
+                              </div>
+                              
+                          </div>
+                        </div>
+                    </div>
+                    <% } %>
+                  <%} else{ %>
+                  
+               <% for(var i=0 ;i < edulen ; i++){%>  
+                <div class="row" id="edu_row_<%= i+1 %>">
+                    <div class="col-xs-6 col-sm-8 col-md8">
+                        <div class="well well-sm">
+                          <div class="row bshadow">
+                          
+                             <center><legend>Education <%= i+1 %></legend></center>
+                             <div class="form-group">
+                                <label class="col-sm-2 control-label" for="school_<%= i+1 %>">School:</label>
+                                <div class="col-sm-9">
+                                  <input type="text" value=""  id = "school_<%= i+1 %>" name="school_<%= i+1 %>" placeholder="" class="form-control">
+                                </div>
+                              </div>
+
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="field_<%= i+1 %>">Field:</label>
+                                <div class="col-sm-9">
+                                  <input type="text" value=""  name="field_<%= i+1 %>"  id="field_<%= i+1 %>" placeholder="" class="form-control">
+                                </div>
+                              </div>
+
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="level_<%= i+1 %>">Degree level:</label>
+                                <div class="col-sm-9">
+                                  <input type="text" value="" name="level_<%= i+1 %>" id="level_<%= i+1 %>" placeholder="" class="form-control">
+                                </div>
+                              </div>
+                              <!-- Text input-->
+                              <div class="form-group">
+                                <label class="col-sm-2 control-label" for="startdate1_<%= i+1 %>" >Start Date:</label>
+                                <div class="col-sm-9">
+                                  <input type="date" value="" name="startdate1_<%= i+1 %>" id="startdate1_<%= i+1 %>" placeholder="YYYY-MM-DD" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" placeholder="" required class="form-control">
+                                </div>
+                              </div>
+
+                                <div class="form-group">
+                                <label class="col-sm-2 control-label" for="enddate1_<%= i+1 %>">End Date:</label>
+                                <div class="col-sm-9">
+                                  <input type="date" value="" name="enddate1_<%= i+1 %>" id="enddate1_<%= i+1 %>"  placeholder="YYYY-MM-DD" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" required class="form-control">
+                                </div>
+                              </div>
+
+                                <label class="col-sm-2 control-label" for="desc1_<%= i+1 %>" style="margin-top: 10px;">Description:</label>
+                                <div class="col-sm-9">
+                                  <textarea class="field span5"  name="desc1_<%= i+1 %>" rows="5" id="desc1_<%= i+1 %>" 
+                                 style="width: 100%; "></textarea>
+                                </div>
+                                <%if(i>0){%>
+                              <input type='button' class='bfloatr'  onclick='deledurow(<%=i+1%>)' value='Delete Education' />
+                              <%}%>                                                                                                                 
+                              </div>
+                              
+                          </div>
+                        </div>
+                    </div>
+                    <% } %>                 
+                  <% } %>
+					              <div>
+				                    <span>
+				                    <input type="button"  onclick="addedurow()" value="Add Education" />
+				                    
+				                    <!-- <button addbuttons>Add Exp</button> -->
+				                    </span>
+				                    
+				                   <span class="col-md-6 bfloatr">
+				                   <span id="loadsym4"></span>
+									<input type="submit" class="btn btn-primary" value="Save Changes">
+									<input type="reset" class="btn btn-default" value="Cancel">
+									</span>
+                			</div>
+					  </form>       
+                </div>
+              
+  
+        </div>
+
+
+      </div>
+  </div>
+
+<input type="hidden" value="<%= explen %>"  id="exp_row_cnt"/>
+<input type="hidden" value="<%= explen %>"  id="last_exp_row_cnt"/>
+<input type="hidden" value="<%= edulen %>"  id="edu_row_cnt"/>
+<input type="hidden" value="<%= edulen %>"  id="last_edu_row_cnt"/>
+<input type="hidden" value="<%= prjlen %>"  id="prj_row_cnt"/>
+<input type="hidden" value="<%= prjlen %>"  id="last_prj_row_cnt"/>
+<input type="hidden" value="<%= skilllen %>"  id="skillcount"/>
+<input type="hidden" value="<%= skilllen %>"  id="last_skill_row"/>
+
+  </body>
+</html>
